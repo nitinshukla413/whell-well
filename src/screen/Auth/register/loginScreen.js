@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import logo from "../../../assest/images/logo.png"; 
 import { useNavigation } from '@react-navigation/native';
+import { loginUser } from '../../../services/firebase';
 const LoginScreen = ({ setIsAuthenticated }) => {
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    console.log("Attempting to log in...");
-    // Your login logic here
-    // If login is successful:
-    setIsAuthenticated(true);
-    console.log("Logged in, isAuthenticated state set to true");
+    const user=loginUser({email,password});
+    if(!user||!user?.fail){
+      setIsAuthenticated(true);
+    }
   };
   
 

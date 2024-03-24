@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {getAuth, onAuthStateChanged } from 'firebase/auth'
+import {onAuthStateChanged } from 'firebase/auth'
 import LoginScreen from './src/screen/Auth/register/loginScreen';
 import RegisterScreen from './src/screen/Auth/register/register';
 import HomeScreen from './src/screen/Home/HomeScreen';
@@ -12,7 +12,8 @@ import ChatScreen from './src/screen/chat/ChatScreen';
 import Setting from './src/screen/setting/Setting';
 import ProfileSetting from './src/screen/Profilesetting/ProfileSetting';
 import PasswordChange from './src/screen/Auth/register/PasswordChange';
-import { app } from './src/services/firebase';
+import { auth } from './src/services/firebase';
+import { checkAuthenticated } from './src/services/auth';
 const Tab = createBottomTabNavigator();
 const AuthStack = createNativeStackNavigator();
 const SettingStack = createNativeStackNavigator();
@@ -27,8 +28,12 @@ const SettingStackScreen = () => (
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-const auth=getAuth(app)
   useEffect(() => {
+    const user=checkAuthenticated();
+    if(user){
+      setIsAuthenticated(true)
+      return;
+    }
     const subscribed=onAuthStateChanged(auth,(user)=>{
       if(user)
       setIsAuthenticated(true)

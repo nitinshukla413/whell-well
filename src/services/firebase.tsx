@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signOut, getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { setUser } from "./storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBeY7qxxgFD9H1X8T7WtJzvKT4eN63pE-A",
@@ -14,40 +15,52 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app)
-const registerUser = ({ email, password }) => {
+const registerUser = ({ email, password, role, fullName }) => {
   if (!email || !password) {
-    return "Invalid email or password";
+    return { message: "Invalid email or password", fail: true }
   }
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
       if (!user) {
-        return "Sorry! Cann't register user";
+        return { message: "Sorry! Cann't register user", fail: true }
       }
+        setUser(user)
+        return { message: "", fail: false, user }
     })
     .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      return errorMessage;
+      let errorMessage = error.message;
+      console.log(errorMessage, "ERR")
+      if(errorMessage.includes('auth/network-request-failed'))
+      errorMessage = "Network Error"
+      if (errorMessage.includes( "auth/email-already-in-use")) {
+        errorMessage = "Email Already exist "
+      }
+      return { message: errorMessage, fail: true }
     });
 
 }
-const loginUser=({email,password})=>{
+const loginUser = ({ email, password }) => {
   if (!email || !password) {
-    return "Invalid email or password";
+    return { message: "Invalid email or password", fail: true }
   }
   signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
+    .then((user) => {
       if (!user) {
-        return "Sorry! user not found";
+        return { message: "Sorry! user not found", fail: true }
       }
+      setUser(user)
+      console.log(user, "<user")
+      return { message: "", fail: false, user }
     })
     .catch((error) => {
-      const errorCode = error.code;
       const errorMessage = error.message;
-      return errorMessage;
+      return { message: errorMessage, fail: true }
+
     });
 
 }
-export { app,registerUser,loginUser };
+const signOutUser = () => {
+  signOut(auth)
+}
+export { app, registerUser, loginUser, auth, signOutUser };

@@ -3,8 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'reac
 import RNPickerSelect from 'react-native-picker-select';
 import logo from "../../../assest/images/logo.png";
 import { useNavigation } from '@react-navigation/native';
-import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
-import { app } from '../../../services/firebase';
+import {  registerUser } from '../../../services/firebase';
 const Register = () => {
     const navigation = useNavigation()
   const [fullName, setFullName] = useState('');
@@ -12,13 +11,8 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [role, setRole] = useState('');
-  const auth=getAuth(app)
 const handleSignUp=()=>{
-createUserWithEmailAndPassword(auth,"priyanka@gmail.com","300304").then(res=>{
-  console.log(res,"LOGIN IN")
-}).catch(err=>{
-  console.log(err,"ERROR")
-})
+registerUser({email,password,role,fullName})
 }
   return (
     <View style={styles.container}>
