@@ -13,6 +13,9 @@ const LoginScreen = ({ setIsAuthenticated }) => {
     if(!user||!user?.fail){
       setIsAuthenticated(true);
     }
+    if(user?.fail){
+      Alert.alert(user?.message);
+     }
   };
   
 

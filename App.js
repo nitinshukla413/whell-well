@@ -14,14 +14,13 @@ import ProfileSetting from './src/screen/Profilesetting/ProfileSetting';
 import PasswordChange from './src/screen/Auth/register/PasswordChange';
 import { auth } from './src/services/firebase';
 import { checkAuthenticated } from './src/services/auth';
-import { getData } from './src/services/firestore';
 const Tab = createBottomTabNavigator();
 const AuthStack = createNativeStackNavigator();
 const SettingStack = createNativeStackNavigator();
 
-const SettingStackScreen = () => (
+const SettingStackScreen = ({setIsAuthenticated}) => (
   <SettingStack.Navigator>
-    <SettingStack.Screen name="Setting" component={Setting} options={{ headerShown: false }} />
+    <SettingStack.Screen name="Setting" component={(props)=><Setting {...props} setIsAuthenticated={setIsAuthenticated}/>} options={{ headerShown: false }} />
     <SettingStack.Screen name="ChangePassword" component={PasswordChange} options={{ headerShown: false }} />
     <SettingStack.Screen name="ProfileSetting" component={ProfileSetting} options={{ headerShown: false }}/>
   </SettingStack.Navigator>
@@ -78,7 +77,7 @@ return ()=>subscribed();
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Request" component={RequestScreen} />
       <Tab.Screen name="chat" component={ChatScreen} />
-      <Tab.Screen name="Settings" component={SettingStackScreen} /> 
+      <Tab.Screen name="Settings" component={(props)=><SettingStackScreen {...props} setIsAuthenticated={setIsAuthenticated}/>} /> 
     </Tab.Navigator>
   );
   

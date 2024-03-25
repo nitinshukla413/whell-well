@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Switch } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { signOutUser } from '../../services/firebase';
 
-const Setting = ({ navigation }) => {
+const Setting = ({ navigation,setIsAuthenticated }) => {
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
 
   const SettingOption = ({ title, iconName, onPress, isSwitch, switchValue, onSwitchChange }) => {
@@ -43,6 +44,12 @@ const Setting = ({ navigation }) => {
   onPress={() => navigation.navigate('ChangePassword')} 
 />
 
+<SettingOption
+        title="Logout"
+        iconName="arrow-undo-outline"
+        onPress={()=>{signOutUser()
+          setIsAuthenticated(false)}}
+      />
 
     </View>
   );

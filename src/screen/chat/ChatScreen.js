@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
+import { auth } from '../../services/firebase';
+import { getUser } from '../../services/storage';
 
 const ChatScreen = () => {
   const [messages, setMessages] = useState([]);
@@ -11,7 +13,6 @@ const ChatScreen = () => {
       setText('');
     }
   };
-
   const renderItem = ({ item }) => (
     <View style={styles.messageContainer}>
       <Text style={styles.messageText}>{item.text}</Text>

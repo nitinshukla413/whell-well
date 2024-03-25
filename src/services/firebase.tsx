@@ -1,7 +1,7 @@
-import { initializeApp } from "firebase/app";
+import { getApp, getApps, initializeApp } from "firebase/app";
 import { createUserWithEmailAndPassword, signOut, getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { setUser } from "./storage";
-import {getFirestore} from 'firebase/firestore'
+import { setUser, setUserData } from "./storage";
+import { doc, getDoc, getFirestore } from 'firebase/firestore'
 import { getData, setData } from "./firestore";
 
 const firebaseConfig = {
@@ -15,33 +15,40 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db= getFirestore(app)
+const app = getApps.length > 0 ? getApp() : initializeApp(firebaseConfig);
+const db = getFirestore(app)
 const auth = getAuth(app)
-const registerUser = ({ email, password, role, fullName }) => {
+const registerUser = async ({ email, password, role, fullName }) => {
   if (!email || !password) {
     return { message: "Invalid email or password", fail: true }
   }
-  createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      if (!user) {
-        return { message: "Sorry! Cann't register user", fail: true }
-      }
-        setUser(user)
-        setData({userDetails:{email,password,role,fullName,userId:user.uid}})
-        return { message: "", fail: false, user }
-    })
-    .catch((error) => {
-      let errorMessage = error.message;
-      if(errorMessage.includes('auth/network-request-failed'))
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    if (!user) {
+      return { message: "Sorry! Cann't register user", fail: true }
+    }
+    const data = {
+      _id: user?.uid,
+      fullName: fullName,
+      email: email,
+      role: role,
+    }
+    setUser(user)
+    const fail = await setData({ userDetails: data })
+    return { message: "", fail: fail, user }
+  } catch (error) {
+    let errorMessage = error.message;
+    if (errorMessage.includes('auth/network-request-failed'))
       errorMessage = "Network Error"
-      if (errorMessage.includes( "auth/email-already-in-use")) {
+      if (errorMessage.includes("auth/email-already-in-use")) {
         errorMessage = "Email Already exist "
       }
-      return { message: errorMessage, fail: true }
-    });
-
+      if (errorMessage.includes("auth/invalid-email")) {
+        errorMessage = "Email Invalid "
+      }
+    return { message: errorMessage, fail: true }
+  }
 }
 const loginUser = ({ email, password }) => {
   if (!email || !password) {
@@ -52,12 +59,15 @@ const loginUser = ({ email, password }) => {
       if (!user) {
         return { message: "Sorry! user not found", fail: true }
       }
-      setUser(user)
-      getData({emailId:email})
-      return { message: "", fail: false, user }
+      setUser(user.user)
+      getData({user:user.user})
+      return { message: "", fail: false, user:user.user }
     })
     .catch((error) => {
-      const errorMessage = error.message;
+      let errorMessage = error.message;
+      if(errorMessage.includes('wrong-password') || errorMessage.includes('invalid-email')){
+        errorMessage="Invalid Email or Password"
+      }
       return { message: errorMessage, fail: true }
 
     });
@@ -65,5 +75,7 @@ const loginUser = ({ email, password }) => {
 }
 const signOutUser = () => {
   signOut(auth)
+  setUser({})
+  setUserData({})
 }
-export { app,db, registerUser, loginUser, auth, signOutUser };
+export { app, db, registerUser, loginUser, auth, signOutUser };

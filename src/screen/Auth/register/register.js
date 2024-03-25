@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import logo from "../../../assest/images/logo.png";
 import { useNavigation } from '@react-navigation/native';
@@ -11,8 +11,11 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [role, setRole] = useState('');
-const handleSignUp=()=>{
-registerUser({email,password,role,fullName})
+const handleSignUp=async()=>{
+ const {fail=false,message=''}=await registerUser({email,password,role,fullName})
+ if(fail){
+  Alert.alert(message);
+ }
 }
   return (
     <View style={styles.container}>
