@@ -22,6 +22,11 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "config":{
+        "googleMaps":{
+          "apiKey":"AIzaSyAnz5tXfNx7lwG40PQ0EbMthLz9L__7jQg"
+        }
+      },
       "package": "com.wheelwell"
     },
     "web": {

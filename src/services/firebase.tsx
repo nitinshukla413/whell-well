@@ -1,6 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { createUserWithEmailAndPassword, signOut, getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { setUser } from "./storage";
+import {getFirestore} from 'firebase/firestore'
+import { getData, setData } from "./firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBeY7qxxgFD9H1X8T7WtJzvKT4eN63pE-A",
@@ -14,6 +16,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const db= getFirestore(app)
 const auth = getAuth(app)
 const registerUser = ({ email, password, role, fullName }) => {
   if (!email || !password) {
@@ -26,11 +29,11 @@ const registerUser = ({ email, password, role, fullName }) => {
         return { message: "Sorry! Cann't register user", fail: true }
       }
         setUser(user)
+        setData({userDetails:{email,password,role,fullName,userId:user.uid}})
         return { message: "", fail: false, user }
     })
     .catch((error) => {
       let errorMessage = error.message;
-      console.log(errorMessage, "ERR")
       if(errorMessage.includes('auth/network-request-failed'))
       errorMessage = "Network Error"
       if (errorMessage.includes( "auth/email-already-in-use")) {
@@ -50,7 +53,7 @@ const loginUser = ({ email, password }) => {
         return { message: "Sorry! user not found", fail: true }
       }
       setUser(user)
-      console.log(user, "<user")
+      getData({emailId:email})
       return { message: "", fail: false, user }
     })
     .catch((error) => {
@@ -63,4 +66,4 @@ const loginUser = ({ email, password }) => {
 const signOutUser = () => {
   signOut(auth)
 }
-export { app, registerUser, loginUser, auth, signOutUser };
+export { app,db, registerUser, loginUser, auth, signOutUser };

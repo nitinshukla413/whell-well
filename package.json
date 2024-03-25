@@ -21,7 +21,7 @@
     "firebase": "^10.9.0",
     "react": "18.2.0",
     "react-native": "0.72.6",
-    "react-native-maps": "1.8.0",
+    "react-native-maps": "1.7.1",
     "react-native-mmkv": "^2.12.2",
     "react-native-picker-select": "^9.0.0",
     "react-native-ratings": "^8.1.0",

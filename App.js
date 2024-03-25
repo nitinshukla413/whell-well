@@ -14,6 +14,7 @@ import ProfileSetting from './src/screen/Profilesetting/ProfileSetting';
 import PasswordChange from './src/screen/Auth/register/PasswordChange';
 import { auth } from './src/services/firebase';
 import { checkAuthenticated } from './src/services/auth';
+import { getData } from './src/services/firestore';
 const Tab = createBottomTabNavigator();
 const AuthStack = createNativeStackNavigator();
 const SettingStack = createNativeStackNavigator();
@@ -28,16 +29,19 @@ const SettingStackScreen = () => (
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  useEffect(() => {
+  useEffect(async() => {
+    let subscribed;
     const user=checkAuthenticated();
     if(user){
+      // getData()
       setIsAuthenticated(true)
       return;
+    }else{
+       subscribed=onAuthStateChanged(auth,(user)=>{
+        if(user)
+        setIsAuthenticated(true)
+      })
     }
-    const subscribed=onAuthStateChanged(auth,(user)=>{
-      if(user)
-      setIsAuthenticated(true)
-    })
 return ()=>subscribed();
   }, []);
 

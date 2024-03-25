@@ -4,6 +4,7 @@ const getToken=(user)=>{
 }
 export const checkAuthenticated=()=>{
     const user=getUser();
+    console.log(user)
     if(!user){
         return false;
     }
@@ -12,4 +13,8 @@ export const checkAuthenticated=()=>{
     return true
    }
    return false
+}
+export const getUserData=()=>{ 
+  const user=getUser();
+  return user?.providerData?.[0];
 }
