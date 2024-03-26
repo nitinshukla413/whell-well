@@ -4,7 +4,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import logo from "../../../assest/images/logo.png";
 import { useNavigation } from '@react-navigation/native';
 import {  registerUser } from '../../../services/firebase';
-const Register = () => {
+const Register = ({setIsAuthenticated}) => {
     const navigation = useNavigation()
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -15,6 +15,8 @@ const handleSignUp=async()=>{
  const {fail=false,message=''}=await registerUser({email,password,role,fullName})
  if(fail){
   Alert.alert(message);
+ }else{
+  setIsAuthenticated(true)
  }
 }
   return (

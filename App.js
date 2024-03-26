@@ -14,9 +14,12 @@ import ProfileSetting from './src/screen/Profilesetting/ProfileSetting';
 import PasswordChange from './src/screen/Auth/register/PasswordChange';
 import { auth } from './src/services/firebase';
 import { checkAuthenticated } from './src/services/auth';
+import { getData } from './src/services/firestore';
+import AllChat from './src/screen/allChat';
 const Tab = createBottomTabNavigator();
 const AuthStack = createNativeStackNavigator();
 const SettingStack = createNativeStackNavigator();
+const ChatStack = createNativeStackNavigator();
 
 const SettingStackScreen = ({setIsAuthenticated}) => (
   <SettingStack.Navigator>
@@ -26,13 +29,24 @@ const SettingStackScreen = ({setIsAuthenticated}) => (
   </SettingStack.Navigator>
 );
 
+const ChatStackScreen = () => (
+  <ChatStack.Navigator >
+    <ChatStack.Screen name="chat" component={AllChat} options={{ headerShown: false }}  />
+    <ChatStack.Screen name="chatWithPerson" component={ChatScreen} options={{ headerShown: false }} />
+  </ChatStack.Navigator>
+);
+
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const handleFetch=async()=>{
+    const data=await getData()
+    setUser(data)
+  }
   useEffect(async() => {
     let subscribed;
     const user=checkAuthenticated();
     if(user){
-      // getData()
+      handleFetch()
       setIsAuthenticated(true)
       return;
     }else{
@@ -49,7 +63,9 @@ return ()=>subscribed();
       <AuthStack.Screen name="Login">
         {props => <LoginScreen {...props} setIsAuthenticated={setIsAuthenticated} />}
       </AuthStack.Screen>
-      <AuthStack.Screen name="Register" component={RegisterScreen} />
+      <AuthStack.Screen name="Register">
+      {props => <RegisterScreen {...props} setIsAuthenticated={setIsAuthenticated} />}
+      </AuthStack.Screen>
     </AuthStack.Navigator>
   );
 
@@ -76,7 +92,7 @@ return ()=>subscribed();
     >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Request" component={RequestScreen} />
-      <Tab.Screen name="chat" component={ChatScreen} />
+      <Tab.Screen name="chat" component={ChatStackScreen} />
       <Tab.Screen name="Settings" component={(props)=><SettingStackScreen {...props} setIsAuthenticated={setIsAuthenticated}/>} /> 
     </Tab.Navigator>
   );

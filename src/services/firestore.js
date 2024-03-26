@@ -1,21 +1,22 @@
-import {  doc, getDoc, setDoc} from "firebase/firestore"
+import {  collection, doc, getDoc, getDocs, query, setDoc, where} from "firebase/firestore"
 import { db } from "./firebase"
 import { getUserData } from "./auth";
-import { getUserMMKVData } from "./storage";
+import { getUser, getUserMMKVData, setUserData } from "./storage";
 
-const getData = async ({user}={}) => {
-   const userExist=getUserMMKVData();
-   if(userExist){
-      return userExist;
+const getData = async ({user:currentUser}={}) => {
+   const userDataPresent=getUserMMKVData()
+   if(userDataPresent?._id){
+     return userDataPresent;
    }
+   let user=currentUser;
+  if(!user){
+   user =getUser()
+  }
    try {
-      const email=user?.email||getUserData()?.email
-      if(!email){
-         return {}
-      }
-      getDoc(doc(db,'users',user.uid)).then(docs=>{
-         console.log(docs.exists(),"<docs")
+    await getDoc(doc(db,'users',user.uid)).then(docs=>{
          if(docs.exists()){
+            console.log(docs.data())
+            setUserData(docs.data())
             return docs.data()
          }
       }).catch(err=>{

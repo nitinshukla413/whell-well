@@ -35,6 +35,7 @@ const registerUser = async ({ email, password, role, fullName }) => {
       role: role,
     }
     setUser(user)
+    getData({user:user})
     const fail = await setData({ userDetails: data })
     return { message: "", fail: fail, user }
   } catch (error) {

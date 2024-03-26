@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
 import logo from "../../../assest/images/logo.png"; 
 import { useNavigation } from '@react-navigation/native';
 import { loginUser } from '../../../services/firebase';
@@ -9,12 +9,15 @@ const LoginScreen = ({ setIsAuthenticated }) => {
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
+    if(!email||!password){
+      Alert.alert('Invalid password');
+    }
     const user=loginUser({email,password});
     if(!user||!user?.fail){
       setIsAuthenticated(true);
     }
     if(user?.fail){
-      Alert.alert(user?.message);
+      Alert.alert(user?.message||'Invalid password');
      }
   };
   
