@@ -13,9 +13,8 @@ const ChatScreen = () => {
   const route = useRoute();
   const [user, setUser] = useState({});
   const flatListRef = useRef(null);
-  let receiver = route.params; //blessin
-  let chatId = user._id + receiver._id;
-
+  let receiver = route.params; 
+  let chatId = (user._id + receiver._id)?.split("")?.sort()?.join("");
   const sendMessage = async () => {
     setLoading(true)
     if (text.trim().length == 0) {
@@ -34,7 +33,7 @@ const ChatScreen = () => {
       message: text,
     }
     setText("")
-    await addDoc(collection(doc(db, 'chats', receiver._id), 'messages'), _doc).then(() => { }).catch(err => {
+    await addDoc(collection(doc(db, 'chats',chatId), 'messages'), _doc).then(() => { }).catch(err => {
       console.log(err, "ERR");
     })
     setLoading(false)
@@ -50,7 +49,7 @@ const ChatScreen = () => {
     setLoading(true)
     if (!user._id)
       return;
-    const msgQuery = query(collection(doc(db, 'chats', user._id), 'messages'), orderBy('timeStamp', 'asc'))
+    const msgQuery = query(collection(doc(db, 'chats',chatId), 'messages'), orderBy('timeStamp', 'asc'))
     const unsubscribe = onSnapshot(msgQuery, (querySnap) => {
       const upMsg = []
       querySnap.docs.forEach(doc => {

@@ -1,10 +1,11 @@
+import { getData } from "./firestore";
 import { getUser } from "./storage";
 const getToken=(user)=>{
   return user?.stsTokenManager?.accessToken;
 }
 export const checkAuthenticated=()=>{
     const user=getUser();
-    console.log(user)
+    getData({user})
     if(!user){
         return false;
     }

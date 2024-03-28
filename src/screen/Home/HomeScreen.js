@@ -1,17 +1,19 @@
 import React from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
-import MapView from 'react-native-maps';
+import MapView,{PROVIDER_GOOGLE} from 'react-native-maps';
+
 
 const HomeScreen = () => {
   return (
     <View style={styles.container}>
    <MapView
     style={styles.map}
-  initialRegion={{
-    latitude:28.644800,
-    longitude: 77.216721,
-    latitudeDelta: 0.01,
-    longitudeDelta: 0.04,
+     provider={PROVIDER_GOOGLE}
+    initialRegion={{
+      latitude:28.644800,
+      longitude: 77.216721,
+      latitudeDelta: 0.01,
+      longitudeDelta: 0.04
   }}
 />
   </View>

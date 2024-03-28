@@ -27,8 +27,7 @@ const AllChat = () => {
       chaats.push( doc.data())
     });
 
-     console.log(data?._id,chaats,"<data?._id")
-      setChats(chaats);
+    setChats(chaats);
     setLoading(false)
 
    })
