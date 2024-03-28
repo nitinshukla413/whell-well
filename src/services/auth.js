@@ -4,16 +4,24 @@ const getToken=(user)=>{
   return user?.stsTokenManager?.accessToken;
 }
 export const checkAuthenticated=()=>{
-    const user=getUser();
-    getData({user})
-    if(!user){
-        return false;
-    }
-   const token=getToken(user);
-   if(token){
-    return true
-   }
-   return false
+  const user=getUser();
+  getData({user})
+  if(!user){
+      return false;
+  }
+ const token=getToken(user);
+ if(token){
+  return true
+ }
+ return false
+}
+export const getID=()=>{
+  const user=getUser();
+  getData({user})
+  if(!user){
+      return undefined;
+  }
+ return user?.uid
 }
 export const getUserData=()=>{ 
   const user=getUser();

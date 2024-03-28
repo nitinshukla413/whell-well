@@ -5,13 +5,13 @@ import { doc, getDoc, getFirestore } from 'firebase/firestore'
 import { getData, setData } from "./firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBeY7qxxgFD9H1X8T7WtJzvKT4eN63pE-A",
-  authDomain: "wheel-well-16c2a.firebaseapp.com",
-  projectId: "wheel-well-16c2a",
-  storageBucket: "wheel-well-16c2a.appspot.com",
-  messagingSenderId: "722537956066",
-  appId: "1:722537956066:web:c151c99d4fbb3039add4bb",
-  measurementId: "G-WQ82DE0EYE"
+  apiKey: "AIzaSyCp8Wf7GIw72M4EoXF9PCjHF8-FwuGsww0",
+  authDomain: "wheelwellproject-395913.firebaseapp.com",
+  projectId: "wheelwellproject-395913",
+  storageBucket: "wheelwellproject-395913.appspot.com",
+  messagingSenderId: "574867804307",
+  appId: "1:574867804307:web:4ef43577e76d017ca47d66",
+  measurementId: "G-NR92LGBYM7"
 };
 
 // Initialize Firebase

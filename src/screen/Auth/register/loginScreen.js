@@ -1,24 +1,29 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert, ActivityIndicator } from 'react-native';
 import logo from "../../../assest/images/logo.png"; 
 import { useNavigation } from '@react-navigation/native';
 import { loginUser } from '../../../services/firebase';
+import { getData } from '../../../services/firestore';
 const LoginScreen = ({ setIsAuthenticated }) => {
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = () => {
+  const handleLogin = async() => {
     if(!email||!password){
       Alert.alert('Invalid password');
     }
-    const user=loginUser({email,password});
+    setLoading(true)
+    const user=await loginUser({email,password});
+    await getData()
     if(!user||!user?.fail){
       setIsAuthenticated(true);
     }
     if(user?.fail){
       Alert.alert(user?.message||'Invalid password');
      }
+     setLoading(false)
   };
   
 
@@ -43,6 +48,7 @@ const LoginScreen = ({ setIsAuthenticated }) => {
         autoCapitalize="none"
       />
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
+        {loading && <ActivityIndicator color="tomato"/>}
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Register')}>

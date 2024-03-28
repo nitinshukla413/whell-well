@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert, ActivityIndicator } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import logo from "../../../assest/images/logo.png";
 import { useNavigation } from '@react-navigation/native';
 import {  registerUser } from '../../../services/firebase';
+import { getData } from '../../../services/firestore';
 const Register = ({setIsAuthenticated}) => {
     const navigation = useNavigation()
   const [fullName, setFullName] = useState('');
@@ -11,13 +12,18 @@ const Register = ({setIsAuthenticated}) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [role, setRole] = useState('');
+  const [loading, setLoading] = useState(false);
+  
 const handleSignUp=async()=>{
+  setLoading(true)
  const {fail=false,message=''}=await registerUser({email,password,role,fullName})
+ await getData()
  if(fail){
   Alert.alert(message);
  }else{
   setIsAuthenticated(true)
  }
+ setLoading(false)
 }
   return (
     <View style={styles.container}>
@@ -59,6 +65,7 @@ const handleSignUp=async()=>{
         placeholder={{ label: "Select a role...", value: null }}
       />
       <TouchableOpacity onPress={handleSignUp} style={styles.button}>
+      {loading && <ActivityIndicator color="tomato"/>}
         <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
       <TouchableOpacity  onPress={()=>{navigation.navigate('Login')}}>

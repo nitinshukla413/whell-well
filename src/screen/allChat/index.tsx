@@ -5,6 +5,7 @@ import { getUser, getUserMMKVData } from '../../services/storage';
 import {  getData } from '../../services/firestore';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
+import { getID } from '../../services/auth';
 
 const AllChat = () => {
   const [loading, setLoading] = useState(false);
@@ -17,7 +18,10 @@ const AllChat = () => {
   
   const handleFetch=async()=>{
     setLoading(true)
-    const data=await getData()
+    let userData=await getData()
+    setUser(userData);
+     const dataID=await getID()
+     let data={_id:dataID}
     const chatQuery=query(collection(db,'users'))
      const subscribe=onSnapshot(chatQuery,(querySnapShot)=>{
      const chaats=[];

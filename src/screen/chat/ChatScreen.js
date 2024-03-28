@@ -16,10 +16,10 @@ const ChatScreen = () => {
   let receiver = route.params; 
   let chatId = (user._id + receiver._id)?.split("")?.sort()?.join("");
   const sendMessage = async () => {
-    setLoading(true)
     if (text.trim().length == 0) {
       return;
     }
+    setLoading(true)
     let id = `${Date.now()}`;
     const timeStamp = serverTimestamp()
     const _doc = {
@@ -46,9 +46,9 @@ const ChatScreen = () => {
     }
   }
   useLayoutEffect(() => {
-    setLoading(true)
     if (!user._id)
       return;
+    setLoading(true)
     const msgQuery = query(collection(doc(db, 'chats',chatId), 'messages'), orderBy('timeStamp', 'asc'))
     const unsubscribe = onSnapshot(msgQuery, (querySnap) => {
       const upMsg = []
