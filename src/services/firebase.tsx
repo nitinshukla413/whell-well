@@ -5,13 +5,13 @@ import { doc, getDoc, getFirestore } from 'firebase/firestore'
 import { getData, setData } from "./firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCp8Wf7GIw72M4EoXF9PCjHF8-FwuGsww0",
-  authDomain: "wheelwellproject-395913.firebaseapp.com",
-  projectId: "wheelwellproject-395913",
-  storageBucket: "wheelwellproject-395913.appspot.com",
-  messagingSenderId: "574867804307",
-  appId: "1:574867804307:web:4ef43577e76d017ca47d66",
-  measurementId: "G-NR92LGBYM7"
+  apiKey: "AIzaSyDFxw5dYrLPkAP5wap0ipSXbI2TAD70QK8",
+  authDomain: "wheel-well-744b5.firebaseapp.com",
+  projectId: "wheel-well-744b5",
+  storageBucket: "wheel-well-744b5.appspot.com",
+  messagingSenderId: "53098450411",
+  appId: "1:53098450411:web:e753fe624bd6d7105b1dae",
+  measurementId: "G-ZVZ83FE0HZ"
 };
 
 // Initialize Firebase
@@ -39,6 +39,7 @@ const registerUser = async ({ email, password, role, fullName }) => {
     const fail = await setData({ userDetails: data })
     return { message: "", fail: fail, user }
   } catch (error) {
+    console.log(error.message,"<error.message")
     let errorMessage = error.message;
     if (errorMessage.includes('auth/network-request-failed'))
       errorMessage = "Network Error"
@@ -51,11 +52,11 @@ const registerUser = async ({ email, password, role, fullName }) => {
     return { message: errorMessage, fail: true }
   }
 }
-const loginUser = ({ email, password }) => {
+const loginUser = async({ email, password }) => {
   if (!email || !password) {
     return { message: "Invalid email or password", fail: true }
   }
-  signInWithEmailAndPassword(auth, email, password)
+  return await signInWithEmailAndPassword(auth, email, password)
     .then((user) => {
       if (!user) {
         return { message: "Sorry! user not found", fail: true }
@@ -65,10 +66,12 @@ const loginUser = ({ email, password }) => {
       return { message: "", fail: false, user:user.user }
     })
     .catch((error) => {
+    console.log(error.message,"<error.message")
       let errorMessage = error.message;
-      if(errorMessage.includes('wrong-password') || errorMessage.includes('invalid-email')){
+      if(errorMessage.includes('wrong-password') || errorMessage.includes('invalid-email')||errorMessage.includes('auth/invalid-credential')){
         errorMessage="Invalid Email or Password"
       }
+      
       return { message: errorMessage, fail: true }
 
     });

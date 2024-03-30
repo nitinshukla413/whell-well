@@ -1,4 +1,4 @@
-import {  collection, doc, getDoc, getDocs, query, setDoc, where} from "firebase/firestore"
+import {  collection, doc, getDoc, getDocs, updateDoc,query, setDoc, where} from "firebase/firestore"
 import { db } from "./firebase"
 import { getUserData } from "./auth";
 import { getUser, getUserMMKVData, setUserData } from "./storage";
@@ -36,4 +36,50 @@ const setData=async({userDetails})=>{
       return true
    }
 }
-export {getData,setData}
+const editUserData = async ({ userId, newData }) => {
+   try {
+     const userRef = doc(db, 'users', userId);
+     await updateDoc(userRef,  {
+      ...newData
+    });
+    await getDoc(doc(db,'users',userId)).then(docs=>{
+      if(docs.exists()){
+         console.log(docs.data())
+         setUserData(docs.data())
+         return docs.data()
+      }
+   }).catch(err=>{
+      console.log("ERROR IN GET DATA:",err)
+   })
+   } catch (error) {
+     console.error('Error editing user data:', error);
+     return false; // Return false indicating failure
+   }
+ };
+ const getUsersWithLatitudeKey = async () => {
+   try {
+     // Construct a query to get all users where latitude field exists
+     const q = query(collection(db, 'users'), where('latitude', '!=', null));
+ 
+     // Execute the query
+     const querySnapshot = await getDocs(q);
+ 
+     // Iterate through the query snapshot and extract user data
+     const users = [];
+     querySnapshot.forEach((doc) => {
+       // Extract user data
+       const user = {
+         id: doc.id,
+         ...doc.data()
+       };
+       users.push(user);
+     });
+ 
+     return users;
+   } catch (error) {
+     console.error('Error fetching users with latitude key:', error);
+     return []; // Return an empty array in case of error
+   }
+ };
+ 
+export {getData,setData,editUserData,getUsersWithLatitudeKey}

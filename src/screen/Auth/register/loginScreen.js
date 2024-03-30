@@ -17,12 +17,12 @@ const LoginScreen = ({ setIsAuthenticated }) => {
     setLoading(true)
     const user=await loginUser({email,password});
     await getData()
-    if(!user||!user?.fail){
-      setIsAuthenticated(true);
-    }
     if(user?.fail){
       Alert.alert(user?.message||'Invalid password');
      }
+     if(!!user && !user?.fail){
+      setIsAuthenticated(true);
+    }
      setLoading(false)
   };
   
