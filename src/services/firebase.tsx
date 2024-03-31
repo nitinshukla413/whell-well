@@ -79,9 +79,7 @@ const loginUser = async({ email, password }) => {
       if(errorMessage.includes('wrong-password') || errorMessage.includes('invalid-email')||errorMessage.includes('auth/invalid-credential')){
         errorMessage="Invalid Email or Password"
       }
-      
       return { message: errorMessage, fail: true }
-
     });
 
 }

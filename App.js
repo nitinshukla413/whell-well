@@ -16,6 +16,7 @@ import { auth } from './src/services/firebase';
 import { checkAuthenticated } from './src/services/auth';
 import { getData } from './src/services/firestore';
 import AllChat from './src/screen/allChat';
+import { setUser } from './src/services/storage';
 const Tab = createBottomTabNavigator();
 const AuthStack = createNativeStackNavigator();
 const SettingStack = createNativeStackNavigator();
