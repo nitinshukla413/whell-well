@@ -47,6 +47,7 @@ const HomeScreen = () => {
   }, []);
 
   const handleZoomIn = () => {
+    if(initialRegion?.latitudeDelta && initialRegion?.longitudeDelta)
     setInitialRegion({
       ...initialRegion,
       latitudeDelta: Math.max(initialRegion.latitudeDelta / 2, 0.001),
@@ -54,6 +55,7 @@ const HomeScreen = () => {
     });
   };
   const handleZoomOut = () => {
+    if(initialRegion?.latitudeDelta && initialRegion?.longitudeDelta)
     setInitialRegion({
       ...initialRegion,
       latitudeDelta: initialRegion.latitudeDelta * 2,

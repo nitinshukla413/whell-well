@@ -39,6 +39,7 @@ const ChatStackScreen = () => (
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userData, setUserData] = useState(null);
   const handleFetch=async()=>{
     const data=await getData()
     setUser(data)
