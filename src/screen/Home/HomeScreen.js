@@ -72,7 +72,7 @@ const HomeScreen = () => {
     let userData=await getData()
     await setId()
     console.log(userData?.role,"ROLE")
-    const chatQuery = query(collection(db,'users'), where('role', "!=", userData?.role))
+    const chatQuery = query(collection(db,'users'), where('role', "!=", userData?.role || ''))
     const subscribe = onSnapshot(chatQuery, (querySnapShot) => {
       const chaats = [];
       querySnapShot.docs.forEach(doc => {
@@ -132,9 +132,9 @@ const HomeScreen = () => {
       </MapView>
       {loading && <ActivityIndicator size={"large"} color={"tomato"} />}
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity onPress={handleZoomIn} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'tomato', height: 40, width: 40, borderRadius: 40 }}><Text style={{ color: 'white', fontSize: 30, textAlign: 'center' }}>+</Text></TouchableOpacity>
-        <TouchableOpacity onPress={handleTakeLocation} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'tomato', borderRadius: 20 }}><Text style={{ color: 'white', fontSize: 15, fontWeight: '600', padding: 10, textAlign: 'center' }}>Save location</Text></TouchableOpacity>
-        <TouchableOpacity onPress={handleZoomOut} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'tomato', height: 40, width: 40, borderRadius: 40 }}><Text style={{ color: 'white', fontSize: 30, textAlign: 'center' }}>-</Text></TouchableOpacity>
+        <TouchableOpacity onPress={handleZoomIn} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'red', height: 40, width: 40, borderRadius: 40 }}><Text style={{ color: 'white', fontSize: 30, textAlign: 'center' }}>+</Text></TouchableOpacity>
+        <TouchableOpacity onPress={handleTakeLocation} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'red', borderRadius: 20 }}><Text style={{ color: 'white', fontSize: 15, fontWeight: '600', padding: 10, textAlign: 'center' }}>Save location</Text></TouchableOpacity>
+        <TouchableOpacity onPress={handleZoomOut} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'red', height: 40, width: 40, borderRadius: 40 }}><Text style={{ color: 'white', fontSize: 30, textAlign: 'center' }}>-</Text></TouchableOpacity>
       </View>
     </View>
   );

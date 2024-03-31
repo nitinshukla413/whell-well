@@ -21,7 +21,7 @@ const AllChat = () => {
     console.log(userData?.role,"<ROLE")
      const dataID=await getID()
      let data={_id:dataID}
-    const chatQuery=query(collection(db,'users'), where('role', "!=", userData?.role))
+    const chatQuery=query(collection(db,'users'), where('role', "!=", userData?.role||''))
      const subscribe=onSnapshot(chatQuery,(querySnapShot)=>{
      const chaats=[];
      querySnapShot.docs.forEach(doc=>{
