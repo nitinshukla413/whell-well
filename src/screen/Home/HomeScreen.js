@@ -90,7 +90,7 @@ const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <MapView
-        loadingEnabled={true}
+        loadingEnabled={loading}
         loadingBackgroundColor='transparent'
         loadingIndicatorColor='red'
         style={styles.map}

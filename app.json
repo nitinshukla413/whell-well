@@ -22,9 +22,9 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "config":{
-        "googleMaps":{
-          "apiKey":"AIzaSyCb9VyvCq5GyC2Ir-BwRuepNA9wR18c26M"
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCb9VyvCq5GyC2Ir-BwRuepNA9wR18c26M"
         }
       },
       "package": "com.wheelwell"
@@ -34,7 +34,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "2529dc53-69b0-4f15-94c6-378df246a9af"
+        "projectId": "856d3914-4787-420b-876b-40c37de8cfe4"
       }
     }
   }
