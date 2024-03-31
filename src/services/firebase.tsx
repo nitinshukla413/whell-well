@@ -5,13 +5,21 @@ import { doc, getDoc, getFirestore } from 'firebase/firestore'
 import { getData, setData } from "./firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDFxw5dYrLPkAP5wap0ipSXbI2TAD70QK8",
-  authDomain: "wheel-well-744b5.firebaseapp.com",
-  projectId: "wheel-well-744b5",
-  storageBucket: "wheel-well-744b5.appspot.com",
-  messagingSenderId: "53098450411",
-  appId: "1:53098450411:web:e753fe624bd6d7105b1dae",
-  measurementId: "G-ZVZ83FE0HZ"
+  // apiKey: "AIzaSyDFxw5dYrLPkAP5wap0ipSXbI2TAD70QK8",
+  // authDomain: "wheel-well-744b5.firebaseapp.com",
+  // projectId: "wheel-well-744b5",
+  // storageBucket: "wheel-well-744b5.appspot.com",
+  // messagingSenderId: "53098450411",
+  // appId: "1:53098450411:web:e753fe624bd6d7105b1dae",
+  // measurementId: "G-ZVZ83FE0HZ"
+  // 
+  apiKey: "AIzaSyDN_jOGmzDOXycGiJs0CHTFmQYwQ67CXic",
+  authDomain: "wheelwell-e6f37.firebaseapp.com",
+  projectId: "wheelwell-e6f37",
+  storageBucket: "wheelwell-e6f37.appspot.com",
+  messagingSenderId: "392936803581",
+  appId: "1:392936803581:web:5bd2cf41a951125df70294",
+  measurementId: "G-T2YV7BLCCN"
 };
 
 // Initialize Firebase
