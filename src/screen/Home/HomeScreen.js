@@ -101,7 +101,8 @@ const HomeScreen = () => {
           <Marker
             coordinate={currentLocation}
             title="Your Location"
-            pinColor="red" // Change color of the current location marker
+            pinColor="navy" 
+            // Change color of the current location marker
           >
             <Callout>
               <Text>Current Location</Text>
@@ -115,7 +116,7 @@ const HomeScreen = () => {
             key={marked.id}
             coordinate={{ latitude: marked.latitude, longitude: marked.longitude }}
             title={`${marked.fullName} - ${marked.role}`}
-            pinColor="red" // Change color of other markers
+            pinColor={marked?.role=="Mechanic"?"orange":"tomato"} // Change color of other markers
             onCalloutPress={() => handlePress(marked)}
           >
           {marked?._id===id?<Callout><Text>Your Location</Text></Callout>:  <Callout>
