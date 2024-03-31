@@ -32,7 +32,7 @@ const SettingStackScreen = ({setIsAuthenticated}) => (
 
 const ChatStackScreen = () => (
   <ChatStack.Navigator >
-    <ChatStack.Screen name="chat" component={AllChat} options={{ headerShown: false }}  />
+    <ChatStack.Screen name="Chat" component={AllChat} options={{ headerShown: false }}  />
     <ChatStack.Screen name="chatWithPerson" component={ChatScreen} options={{ headerShown: false }} />
   </ChatStack.Navigator>
 );
@@ -80,21 +80,21 @@ return ()=>subscribed();
             iconName = focused ? 'ios-home' : 'ios-home-outline';
           } else if (route.name === 'Request') {
             iconName = focused ? 'ios-hand-left' : 'ios-hand-left-outline';
-          } else if (route.name === 'chat') {
+          } else if (route.name === 'Chat') {
             iconName = focused ? 'ios-chatbubble' : 'ios-chatbubble-outline';
           } else if (route.name === 'Settings') {
             iconName = focused ? 'ios-settings' : 'ios-settings-outline'; 
           }
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarLabel: () => null, 
+        tabBarLabel: () => null,
         tabBarActiveTintColor: 'tomato',
         tabBarInactiveTintColor: 'gray',
       })}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Request" component={RequestScreen} />
-      <Tab.Screen name="chat" component={ChatStackScreen} />
+      <Tab.Screen name="Home"  options={{headerShown: false}} component={HomeScreen} />
+      {/* <Tab.Screen name="Request" component={RequestScreen} /> */}
+      <Tab.Screen name="Chat"  component={ChatStackScreen} />
       <Tab.Screen name="Settings" component={(props)=><SettingStackScreen {...props} setIsAuthenticated={setIsAuthenticated}/>} /> 
     </Tab.Navigator>
   );

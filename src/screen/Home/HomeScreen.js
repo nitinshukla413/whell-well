@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import * as Location from "expo-location";
 import { editUserData, getData, getUsersWithLatitudeKey } from '../../services/firestore';
 import { getID } from '../../services/auth.js'
-import { collection, onSnapshot, query } from 'firebase/firestore';
+import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { db } from '../../services/firebase';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 const HomeScreen = () => {
@@ -69,8 +69,10 @@ const HomeScreen = () => {
   }
   useFocusEffect(useCallback(async () => {
     setLoading(true)
+    let userData=await getData()
     await setId()
-    const chatQuery = query(collection(db, 'users'))
+    console.log(userData?.role,"ROLE")
+    const chatQuery = query(collection(db,'users'), where('role', "!=", userData?.role))
     const subscribe = onSnapshot(chatQuery, (querySnapShot) => {
       const chaats = [];
       querySnapShot.docs.forEach(doc => {
@@ -84,10 +86,10 @@ const HomeScreen = () => {
     setLoading(false)
     return subscribe;
   }, []))
-  console.log(allMarkedUser, id, "<<allMarkedUser")
+  console.log(allMarkedUser, "<<allMarkedUser")
   const navigation = useNavigation();
   const handlePress = (item) => {
-    navigation.navigate('chat', item)
+    navigation.navigate('Chat', item)
   }
   return (
     <View style={styles.container}>
@@ -128,8 +130,8 @@ const HomeScreen = () => {
           </Marker>
         )})}
       </MapView>
+      {loading && <ActivityIndicator size={"large"} color={"tomato"} />}
       <View style={styles.buttonsContainer}>
-        {loading && <ActivityIndicator size={"large"} color={"tomato"} />}
         <TouchableOpacity onPress={handleZoomIn} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'tomato', height: 40, width: 40, borderRadius: 40 }}><Text style={{ color: 'white', fontSize: 30, textAlign: 'center' }}>+</Text></TouchableOpacity>
         <TouchableOpacity onPress={handleTakeLocation} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'tomato', borderRadius: 20 }}><Text style={{ color: 'white', fontSize: 15, fontWeight: '600', padding: 10, textAlign: 'center' }}>Save location</Text></TouchableOpacity>
         <TouchableOpacity onPress={handleZoomOut} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'tomato', height: 40, width: 40, borderRadius: 40 }}><Text style={{ color: 'white', fontSize: 30, textAlign: 'center' }}>-</Text></TouchableOpacity>
@@ -148,7 +150,7 @@ const styles = StyleSheet.create({
   },
   map: {
     width: Dimensions.get('window').width,
-    height: '90%',
+    height: '100%',
   },
   buttonsContainer: {
     flexDirection: 'row',

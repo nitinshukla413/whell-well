@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, ActivityIndicator } from 'react-native';
-import { auth, db } from '../../services/firebase';
-import { getUser, getUserMMKVData } from '../../services/storage';
+import { db } from '../../services/firebase';
 import {  getData } from '../../services/firestore';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
@@ -15,14 +14,14 @@ const AllChat = () => {
   const handlePress=(item)=>{
     navigation.navigate('chatWithPerson',item)
   }
-  
   const handleFetch=async()=>{
     setLoading(true)
     let userData=await getData()
     setUser(userData);
+    console.log(userData?.role,"<ROLE")
      const dataID=await getID()
      let data={_id:dataID}
-    const chatQuery=query(collection(db,'users'))
+    const chatQuery=query(collection(db,'users'), where('role', "!=", userData?.role))
      const subscribe=onSnapshot(chatQuery,(querySnapShot)=>{
      const chaats=[];
      querySnapShot.docs.forEach(doc=>{

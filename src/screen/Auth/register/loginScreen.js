@@ -65,11 +65,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   logo: {
-    width: 150,
-    height: 150,
+    width: '50%',
+    height: 130,
     resizeMode: 'contain',
     alignSelf: 'center',
-    marginBottom: 30,
+    objectFit:'cover',
+    borderColor:'black'
+    // marginBottom: 2,
   },
   header: {
     fontSize: 24,
@@ -105,6 +107,7 @@ const styles = StyleSheet.create({
   buttonText1: {
     color: 'red',
     fontSize: 18,
+    marginTop:17,
     fontWeight: 'bold',
     textAlign:'center'
   },

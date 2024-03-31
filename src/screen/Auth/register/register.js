@@ -114,15 +114,16 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   logo: {
-    width: 150,
-    height: 150,
+    width: '50%',
+    height: 120,
     resizeMode: 'contain',
     alignSelf: 'center',
-    marginBottom: 30,
+    objectFit:'cover',
   },
   buttonText1: {
     color: 'red',
     fontSize: 18,
+    marginTop:16,
     fontWeight: 'bold',
     textAlign:'center'
   },
