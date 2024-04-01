@@ -1,16 +1,17 @@
 {
   "expo": {
-    "name": "wheelwell",
+    "name": "WheelWell",
+    "displayName": "WheelWell",
     "slug": "wheelwell",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
+    // "splash": {
+    //   "image": "./assets/splash.png",
+    //   "resizeMode": "cover",
+    //   "backgroundColor": "#283070"
+    // },
     "assetBundlePatterns": [
       "**/*"
     ],
