@@ -73,7 +73,7 @@ const App = () => {
     let subscribed;
     setTimeout(() => {
       SplashScreen.hideAsync()
-    }, 2000);
+    }, 5000);
     const user = checkAuthenticated();
     if (user) {
       handleFetch();

@@ -16,6 +16,9 @@ const Register = ({setIsAuthenticated}) => {
   
 const handleSignUp=async()=>{
   setLoading(true)
+  if (!email || !password || email?.length === 0 || password?.length === 0||role?.length===0) {
+    Alert.alert('Please fill required fields');
+  }
  const {fail=false,message=''}=await registerUser({email,password,role,fullName})
  await getData()
  if(fail){

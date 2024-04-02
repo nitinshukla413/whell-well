@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert, ActivityIndicator } from 'react-native';
-import logo from "../../../assest/images/logo.png"; 
+import logo from "../../../assest/images/logo.png";
 import { useNavigation } from '@react-navigation/native';
 import { loginUser } from '../../../services/firebase';
 import { getData } from '../../../services/firestore';
@@ -10,22 +10,22 @@ const LoginScreen = ({ setIsAuthenticated }) => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = async() => {
-    if(!email||!password){
-      Alert.alert('Invalid password');
+  const handleLogin = async () => {
+    if (!email || !password || email?.length === 0 || password?.length === 0) {
+      Alert.alert('Please fill required fields');
     }
     setLoading(true)
-    const user=await loginUser({email,password});
+    const user = await loginUser({ email, password });
     await getData()
-    if(user?.fail){
-      Alert.alert(user?.message||'Invalid password');
-     }
-     if(!!user && !user?.fail){
+    if (user?.fail) {
+      Alert.alert(user?.message || 'Invalid password');
+    }
+    if (!!user && !user?.fail) {
       setIsAuthenticated(true);
     }
-     setLoading(false)
+    setLoading(false)
   };
-  
+
 
   return (
     <View style={styles.container}>
@@ -48,7 +48,7 @@ const LoginScreen = ({ setIsAuthenticated }) => {
         autoCapitalize="none"
       />
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        {loading && <ActivityIndicator color="tomato"/>}
+        {loading && <ActivityIndicator color="tomato" />}
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Register')}>
@@ -69,8 +69,8 @@ const styles = StyleSheet.create({
     height: 130,
     resizeMode: 'contain',
     alignSelf: 'center',
-    objectFit:'cover',
-    borderColor:'black'
+    objectFit: 'cover',
+    borderColor: 'black'
     // marginBottom: 2,
   },
   header: {
@@ -107,9 +107,9 @@ const styles = StyleSheet.create({
   buttonText1: {
     color: 'red',
     fontSize: 18,
-    marginTop:17,
+    marginTop: 17,
     fontWeight: 'bold',
-    textAlign:'center'
+    textAlign: 'center'
   },
 });
 
