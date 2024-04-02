@@ -12,7 +12,7 @@ const LoginScreen = ({ setIsAuthenticated }) => {
 
   const handleLogin = async () => {
     if (!email || !password || email?.length === 0 || password?.length === 0) {
-      Alert.alert('Please fill required fields');
+      Alert.alert('Please enter all the fields');
     }
     setLoading(true)
     const user = await loginUser({ email, password });
