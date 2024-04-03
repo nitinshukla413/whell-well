@@ -1,18 +1,10 @@
 import { getApp, getApps, initializeApp } from "firebase/app";
-import { createUserWithEmailAndPassword, signOut, getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signOut, getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import { setUser, setUserData } from "./storage";
 import { doc, getDoc, getFirestore } from 'firebase/firestore'
 import { getData, setData } from "./firestore";
 
 const firebaseConfig = {
-  // apiKey: "AIzaSyDFxw5dYrLPkAP5wap0ipSXbI2TAD70QK8",
-  // authDomain: "wheel-well-744b5.firebaseapp.com",
-  // projectId: "wheel-well-744b5",
-  // storageBucket: "wheel-well-744b5.appspot.com",
-  // messagingSenderId: "53098450411",
-  // appId: "1:53098450411:web:e753fe624bd6d7105b1dae",
-  // measurementId: "G-ZVZ83FE0HZ"
-  // 
   apiKey: "AIzaSyDN_jOGmzDOXycGiJs0CHTFmQYwQ67CXic",
   authDomain: "wheelwell-e6f37.firebaseapp.com",
   projectId: "wheelwell-e6f37",
@@ -22,7 +14,6 @@ const firebaseConfig = {
   measurementId: "G-T2YV7BLCCN"
 };
 
-// Initialize Firebase
 const app = getApps.length > 0 ? getApp() : initializeApp(firebaseConfig);
 const db = getFirestore(app)
 const auth = getAuth(app)
@@ -88,4 +79,16 @@ const signOutUser = () => {
   setUser({})
   setUserData({})
 }
-export { app, db, registerUser, loginUser, auth, signOutUser };
+
+
+const forgotPassword = async (email) => {
+  try {
+    await sendPasswordResetEmail(auth, email);
+    return { message: "Password reset email has been sent", fail: false };
+  } catch (error) {
+    console.error("Error sending password reset email:", error);
+    return { message: "Failed to send password reset email", fail: true };
+  }
+}
+
+export { app, db, registerUser, loginUser, auth, signOutUser,forgotPassword };

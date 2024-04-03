@@ -19,6 +19,7 @@ import { setUser } from "./src/services/storage";
 import { StatusBar } from "expo-status-bar";
 import { LogBox } from "react-native";
 import * as SplashScreen from 'expo-splash-screen';
+import ForgotPassword from "./src/screen/Auth/register/ForgotPassword";
 const Tab = createBottomTabNavigator();
 const AuthStack = createNativeStackNavigator();
 const SettingStack = createNativeStackNavigator();
@@ -98,6 +99,11 @@ const App = () => {
       <AuthStack.Screen name="Register">
         {(props) => (
           <RegisterScreen {...props} setIsAuthenticated={setIsAuthenticated} />
+        )}
+      </AuthStack.Screen>
+      <AuthStack.Screen name="Forgot Password"  options={{ headerShown: true }}>
+        {() => (
+            <ForgotPassword/>
         )}
       </AuthStack.Screen>
     </AuthStack.Navigator>

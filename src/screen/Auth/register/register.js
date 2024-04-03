@@ -34,7 +34,7 @@ const handleSignUp=async()=>{
       <Text style={styles.header}>Register</Text>
       <TextInput
         style={styles.input}
-        placeholder="Full Names"
+        placeholder="Full Name"
         value={fullName}
         onChangeText={setFullName}
       />
