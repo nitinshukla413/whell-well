@@ -28,8 +28,10 @@ const ForgotPassword = () => {
         onChangeText={setEmailAddress}
         autoCapitalize="none"
       />
-      <TouchableOpacity style={{  color: '#ffffff',fontSize: 16 , fontWeight: 'bold',marginTop:20}} onPress={handleResetPassword}>
-        <Text style={styles.buttonText}>Reset Password</Text>
+      <TouchableOpacity style={[styles.button, { marginTop: 20 }]} onPress={handleResetPassword}>
+        <Text style={{   color: '#ffffff',
+    fontSize: 16,
+    fontWeight: 'bold',}}>Reset Password</Text>
       </TouchableOpacity>
     </View>
   );
